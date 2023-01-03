@@ -21,11 +21,26 @@ import { useState } from 'react';
   - Start Page design
     * Add background image
   - Leaderboard Page creation
+  - Add info modal or something
+    * Displays info about how to play the game
+    * Double click to tag item
 3. Image search
   - Find images to use for searching
   - Design Tagging system
     * Animate click that extends a line from click point
       then opens a selection dialogue
+  - Create Mouse position function
+    * Get mouse click position and subtract
+      it from the transform style of the image
+    * Figure out how to take into account zoom
+4. Process Images
+  - Crop images
+  - Repair page split (AI)
+  - Enhance image quality (AI)
+
+---------- BUGS ----------
+  - Cannot go back to start page using back button
+  - Refreshing page causes loss of player name
 */
 
 function App() {
@@ -34,6 +49,14 @@ function App() {
   const setUserName = (name) => {
     setUser({...user,name:name});
   }
+  const doubleClickHandler = (e) => {
+    console.log(e);
+
+  }
+
+  const getCursorPosition = () => {
+
+  }
   return (
     <div className="App">
       <BrowserRouter>
@@ -41,7 +64,7 @@ function App() {
       <Header user={user} />
       <Routes>
         <Route path='/' element={<Start setUserName={setUserName} />} />
-        <Route path='/lvl1' element={<PhotoPage />} />
+        <Route path='/lvl1' element={<PhotoPage doubleClickHandler={doubleClickHandler} />} />
       </Routes>
       </BrowserRouter>
       

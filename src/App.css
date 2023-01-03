@@ -3,6 +3,7 @@
   background-color: rgb(250,250,250);
   min-height: 100vh;
   min-width: 100vw;
+  overflow: hidden;
 }
 
 .header{
@@ -35,8 +36,9 @@
 .images{
   width: 100%;
   height: 100%;
-  margin-left: 192px;
+  padding-left: 192px;
 }
 img{
   width: 100%;
+  height: 100%;
 }
