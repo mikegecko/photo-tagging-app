@@ -12,6 +12,14 @@ export default function PhotoPage(props) {
   const imgref = useRef(null);
   const [marker, setMarker] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
+  const [anim,setAnim] = useState(false);
+  const dash = <svg className='lines' width="89" height="19" viewBox="0 0 89 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path className={anim ? 'dash' : ''} onAnimationEnd={() => setAnim(false)} id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
+  </svg>
+  const circle = <svg className="circles" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle className={anim ? 'fade' : ''} id="circle" cx="5" cy="5" r="5" fill="#4A4A4A"/>
+  </svg>
+  
   const dbClick = (e) => {
     //Gets accurate position of mouse cursor on image
     //console.log(imgref.current.getBoundingClientRect());
@@ -23,6 +31,7 @@ export default function PhotoPage(props) {
     const fx = ax * (1 / scale) + offsetx;
     const fy = ay * (1 / scale) + offsety;
     //fx fy are final mouse positions
+    setAnim(true);
     setMarker({ x: fx, y: fy });
   };
   const zoomHandler = (ref, e) => {
@@ -57,7 +66,9 @@ export default function PhotoPage(props) {
                 fontSize: "2rem",
               }}
             >
-              X
+                {circle}
+                {dash}  
+              
             </Box>
             <img src={imgJ} alt="Stuff" />
           </div>
