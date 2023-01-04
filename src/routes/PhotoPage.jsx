@@ -3,34 +3,64 @@ import {
   TransformComponent,
   TransformWrapper,
 } from "@pronestor/react-zoom-pan-pinch";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Menu, MenuItem } from "@mui/material";
 
 /*
 ----------- TODO -----------
-    - Refactor this page, there is too much going 
-        on and needs to be decoupled
-    - On menu close -> hide the dash svg
+    ❌ Refactor this page, there is too much going 
+        on and needs to be modified
 */
 
 export default function PhotoPage(props) {
   const obj = { disabled: false, velocityDisabled: false };
   const obj2 = { disabled: true };
   const imgref = useRef(null);
-  const [marker, setMarker] = useState({ x: 0, y: 0, mx:0, my:0 });
+  const [marker, setMarker] = useState({ x: 0, y: 0, mx: 0, my: 0 });
   const [scale, setScale] = useState(1);
-  const [anim,setAnim] = useState(false);
-  const [hidden,setHidden] = useState(true);
+  const [anim, setAnim] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const dash = <svg className='lines' width="89" height="19" viewBox="0 0 89 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path className={`${anim ? 'dash' : ''} ${hidden ? 'hidden' : ''}`} id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
-  </svg>
-  const circle = <svg className="circles" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle className={`${anim ? 'fade' : ''} ${hidden ? 'hidden' : ''}`} onAnimationEnd={() => setAnim(false)} id="circle" cx="5" cy="5" r="5" fill="#4A4A4A"/>
-  </svg>
-  
+  const dash = (
+    <svg
+      className="lines"
+      width={89 * (1 / scale)}
+      height={19 * (1 / scale)}
+      viewBox="0 0 89 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        className={`${anim ? "dash" : ""} ${hidden ? "hidden" : ""}`}
+        id="line"
+        d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999"
+        stroke="black"
+      />
+    </svg>
+  );
+  const circle = (
+    <svg
+      className="circles"
+      width={10 * (1 / scale)+1.3}
+      height={10 * (1 / scale)+1.3}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        className={`${anim ? "fade" : ""} ${hidden ? "hidden" : ""}`}
+        onAnimationEnd={() => setAnim(false)}
+        id="circle"
+        cx="5"
+        cy="5"
+        r="5"
+        fill="#000000"
+      />
+    </svg>
+  );
+
   const dbClick = (e) => {
     //Gets accurate position of mouse cursor on image
     //console.log(imgref.current.getBoundingClientRect());
@@ -54,7 +84,7 @@ export default function PhotoPage(props) {
   const handleClose = () => {
     setAnchorEl(null);
     setHidden(true);
-  }
+  };
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
@@ -64,6 +94,7 @@ export default function PhotoPage(props) {
         limitToBounds={false}
         panning={obj}
         minScale={0.8}
+        maxScale={3}
         doubleClick={obj2}
         velocityAnimation={obj2}
         onZoom={zoomHandler}
@@ -83,12 +114,20 @@ export default function PhotoPage(props) {
                 fontSize: "2rem",
               }}
             >
-                {circle}
-                {dash}  
-                <Menu id='menu-select' anchorReference="anchorPosition" anchorPosition={{top: marker.my + 18, left: marker.mx + 30}} anchorOrigin={{vertical: 'top', horizontal: 'left'}} transformOrigin={{vertical: 'top', horizontal: 'left'}} anchorEl={anchorEl} open={open} onClose={handleClose} >
-                    <MenuItem onClick={handleClose}>Item</MenuItem>
-                </Menu>
-              
+              {circle}
+              {dash}
+              <Menu
+                id="menu-select"
+                anchorReference="anchorPosition"
+                anchorPosition={{ top: marker.my + 18, left: marker.mx + 30 }}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Item</MenuItem>
+              </Menu>
             </Box>
             <img src={imgJ} alt="Stuff" />
           </div>

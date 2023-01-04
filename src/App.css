@@ -54,7 +54,8 @@ img{
 }
 .circles{
   position:absolute;
-  top: 5px;
+  top: 9px;
+  left: 4px;
   z-index: 1;
 }
 @keyframes dash {
