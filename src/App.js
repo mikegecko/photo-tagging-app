@@ -49,21 +49,7 @@ function App() {
   const setUserName = (name) => {
     setUser({...user,name:name});
   }
-  const doubleClickHandler = (e) => {
-    console.log(e);
 
-  }
-
-  const getCursorPosition = () => {
-
-  }
-  const dash = <svg className='lines' width="89" height="19" viewBox="0 0 89 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
-  </svg>
-  const circle = <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="8.5" cy="8.5" r="8.5" fill="#969696"/>
-  </svg>
-  
 
   return (
     <div className="App">
@@ -72,7 +58,7 @@ function App() {
       <Header user={user} />
       <Routes>
         <Route path='/' element={<Start setUserName={setUserName} />} />
-        <Route path='/lvl1' element={<PhotoPage doubleClickHandler={doubleClickHandler} />} />
+        <Route path='/lvl1' element={<PhotoPage />} />
       </Routes>
       </BrowserRouter>
       

@@ -14,10 +14,10 @@ export default function PhotoPage(props) {
   const [scale, setScale] = useState(1);
   const [anim,setAnim] = useState(false);
   const dash = <svg className='lines' width="89" height="19" viewBox="0 0 89 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path className={anim ? 'dash' : ''} onAnimationEnd={() => setAnim(false)} id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
+  <path className={anim ? 'dash' : ''} id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
   </svg>
   const circle = <svg className="circles" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle className={anim ? 'fade' : ''} id="circle" cx="5" cy="5" r="5" fill="#4A4A4A"/>
+  <circle className={anim ? 'fade' : ''} onAnimationEnd={() => setAnim(false)} id="circle" cx="5" cy="5" r="5" fill="#4A4A4A"/>
   </svg>
   
   const dbClick = (e) => {
