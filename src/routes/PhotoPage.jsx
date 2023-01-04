@@ -10,30 +10,25 @@ export default function PhotoPage(props) {
   const obj = { disabled: false, velocityDisabled: false };
   const obj2 = { disabled: true };
   const imgref = useRef(null);
-    const [marker,setMarker] = useState({x:0,y:0})
-    const [scale,setScale] = useState(1);
+  const [marker, setMarker] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
   const dbClick = (e) => {
-    //This works
-    console.log(imgref.current.getBoundingClientRect());
+    //Gets accurate position of mouse cursor on image
+    //console.log(imgref.current.getBoundingClientRect());
     const rect = imgref.current.getBoundingClientRect();
-    const mx = e.clientX;
-    const my = e.clientY;
-    console.log(mx,my);
-    const ix = rect.x;
-    const iy = rect.y;
-    const ax = mx - ix;
-    const ay = my - iy;
-    //Accurate values before scaling
-    const fx = ax * (1/scale);
-    const fy = ay * (1/scale);
-    console.log(fx, fy);
-    setMarker({x:fx, y:fy});
-  }
+    const ax = e.clientX - rect.x;
+    const ay = e.clientY - rect.y;
+    const offsetx = -5;
+    const offsety = -10;
+    const fx = ax * (1 / scale) + offsetx;
+    const fy = ay * (1 / scale) + offsety;
+    //fx fy are final mouse positions
+    setMarker({ x: fx, y: fy });
+  };
   const zoomHandler = (ref, e) => {
     const sc = ref.state.scale;
-    console.log(sc);
     setScale(sc);
-  }
+  };
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
@@ -53,8 +48,18 @@ export default function PhotoPage(props) {
       >
         <TransformComponent>
           <div ref={imgref}>
-            <Box sx={{color:'red', position:'absolute', left:marker.x, top: marker.y}}>X</Box>
-            <img src={imgJ}  alt="Stuff" />
+            <Box
+              sx={{
+                color: "red",
+                position: "absolute",
+                left: marker.x,
+                top: marker.y,
+                fontSize: "2rem",
+              }}
+            >
+              X
+            </Box>
+            <img src={imgJ} alt="Stuff" />
           </div>
         </TransformComponent>
       </TransformWrapper>

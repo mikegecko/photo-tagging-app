@@ -7,17 +7,21 @@ export default function Start(props) {
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const handleOnClick = useCallback(() => navigate('/lvl1', {replace: true}), [navigate]);
-    const handleTextChange = (e) => {
-        setName(e.target.value);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.setUserName(name);
+        handleOnClick();
     }
     return(
         <div className="overlay">
             <Box sx={{width: "300px"}}>
                 <p>Tagging App</p> 
+                <form onSubmit={handleSubmit}>
                 <Divider variant="middle"/>
-                <TextField onChange={handleTextChange} variant="outlined" label="Name" sx={{margin:"1rem"}}/>
+                <TextField required={true} value={name} type={'text'} id={'name'} onChange={e => setName(e.target.value)} variant="outlined" label="Name" sx={{margin:"1rem"}}/>
                 <Divider variant="middle"/>
-                <Button onClick={(e) => {handleOnClick(); props.setUserName(name)}} variant="contained" sx={{margin:"1rem"}}>Start Game</Button>
+                <Button type='submit' variant="contained" sx={{margin:"1rem"}}>Start Game</Button>
+                </form>
             </Box>
         </div>
     )
