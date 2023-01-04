@@ -5,14 +5,23 @@ import {
 } from "@pronestor/react-zoom-pan-pinch";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
+import { Menu, MenuItem } from "@mui/material";
+
+/*
+----------- TODO -----------
+    - Refactor this page, there is too much going 
+        on and needs to be decoupled
+*/
 
 export default function PhotoPage(props) {
   const obj = { disabled: false, velocityDisabled: false };
   const obj2 = { disabled: true };
   const imgref = useRef(null);
-  const [marker, setMarker] = useState({ x: 0, y: 0 });
+  const [marker, setMarker] = useState({ x: 0, y: 0, mx:0, my:0 });
   const [scale, setScale] = useState(1);
   const [anim,setAnim] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const dash = <svg className='lines' width="89" height="19" viewBox="0 0 89 19" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path className={anim ? 'dash' : ''} id='line' d="M0.394531 0.693024L14.3945 18.693M13.9999 18.5H88.9999" stroke="black"/>
   </svg>
@@ -32,12 +41,16 @@ export default function PhotoPage(props) {
     const fy = ay * (1 / scale) + offsety;
     //fx fy are final mouse positions
     setAnim(true);
-    setMarker({ x: fx, y: fy });
+    setMarker({ x: fx, y: fy, mx: e.clientX, my: e.clientY });
+    setAnchorEl(e.currentTarget);
   };
   const zoomHandler = (ref, e) => {
     const sc = ref.state.scale;
     setScale(sc);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  }
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
@@ -68,6 +81,9 @@ export default function PhotoPage(props) {
             >
                 {circle}
                 {dash}  
+                <Menu id='menu-select' anchorReference="anchorPosition" anchorPosition={{top: marker.my + 18, left: marker.mx + 30}} anchorOrigin={{vertical: 'top', horizontal: 'left'}} transformOrigin={{vertical: 'top', horizontal: 'left'}} anchorEl={anchorEl} open={open} onClose={handleClose} >
+                    <MenuItem onClick={handleClose}>Item</MenuItem>
+                </Menu>
               
             </Box>
             <img src={imgJ} alt="Stuff" />
