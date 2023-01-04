@@ -4,8 +4,11 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Start from './routes/Start';
 import PhotoPage from './routes/PhotoPage'
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { firebaseConfig } from './config';
+import { collection, addDoc, getDocs } from "firebase/firestore";
 /* 
 ---------- TODO ----------
 1. Setup Firebase Database
@@ -53,14 +56,27 @@ import { useState } from 'react';
   ✅ On menu close -> hide the dash svg
 */
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const levelsRef = collection(db, "levels");
+const usersRef = collection(db, "users");
+
 function App() {
   const [user,setUser] = useState({});
 
   const setUserName = (name) => {
     setUser({...user,name:name});
   }
-
-
+  useEffect(() => {
+    async function getSnapshot(ref) {
+      const querySnapshot = await getDocs(ref);
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+    }
+    getSnapshot(levelsRef);
+}, [])
   return (
     <div className="App">
       <BrowserRouter>
