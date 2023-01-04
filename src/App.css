@@ -83,3 +83,6 @@ img{
   stroke-dashoffset: 1000;
   animation: dash 3s linear forwards;
 }
+.hidden{
+  display: none;
+}
