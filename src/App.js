@@ -47,7 +47,7 @@ import { useState } from 'react';
   - Enhance image quality (AI)
 
 ---------- BUGS ----------
-  - Zooming breaks double click menu and svg
+  ✅ Zooming breaks double click menu and svg
   ❌ Cannot go back to start page using back button
   ❌ Refreshing page causes loss of player name
   ✅ On menu close -> hide the dash svg
