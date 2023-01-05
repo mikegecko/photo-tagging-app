@@ -2,6 +2,7 @@ import { Button, Divider, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function Start(props) {
     const [name, setName] = useState('');
@@ -21,6 +22,7 @@ export default function Start(props) {
                 <TextField required={true} value={name} type={'text'} id={'name'} onChange={e => setName(e.target.value)} variant="outlined" label="Name" sx={{margin:"1rem"}}/>
                 <Divider variant="middle"/>
                 <Button type='submit' variant="contained" sx={{margin:"1rem"}}>Start Game</Button>
+                <LoadingButton></LoadingButton>
                 </form>
             </Box>
         </div>

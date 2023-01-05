@@ -18,6 +18,7 @@ import { Box } from "@mui/system";
     * [Best Option] Or store name locally and store it until level completion
   - Figure out structure of user data
   - Figure out structure of item data
+    * duplicate item data into user data ?
   - Authentication / Session token ?
   - Image storage
 2. Finish designing UI
@@ -42,9 +43,9 @@ import { Box } from "@mui/system";
     ✅ Get mouse click position and subtract
       it from the transform style of the image
     ✅ Figure out how to take into account zoom
-  - Populate tag menu with items database
-    * Make temp local DB
-    * Make Firebase DB
+  ✅ Populate tag menu with items database
+    ✅ Make temp local DB
+    ✅ Make Firebase DB
 4. Process Images
   - Crop images
   - Repair page split (AI)
