@@ -13,7 +13,6 @@ export default function Sidebar(props){
             })}
             </List>
                 
-                
             </div>
         </Drawer>
     )
