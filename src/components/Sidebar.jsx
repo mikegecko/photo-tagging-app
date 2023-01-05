@@ -1,5 +1,4 @@
 import { Drawer } from "@mui/material";
-import { useEffect } from "react";
 
 
 export default function Sidebar(props){

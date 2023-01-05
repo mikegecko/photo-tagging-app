@@ -1,8 +1,7 @@
-import { Button, Divider, Paper, TextField } from "@mui/material";
+import { Button, Divider, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
-import { Timestamp } from "firebase/firestore";
 
 export default function Start(props) {
     const [name, setName] = useState('');
