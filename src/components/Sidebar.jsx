@@ -1,4 +1,4 @@
-import { Drawer } from "@mui/material";
+import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 
 
 export default function Sidebar(props){
@@ -7,11 +7,12 @@ export default function Sidebar(props){
         <Drawer anchor="left" variant="permanent" elevation={1}>
             <div className="drawer">
                 <h3>Items</h3>
-                <ul>
+                <List>
                 {props.loading ? <div>...loading</div> : props.items.items.map((item, index) => {
-                return(<li key={index}>{item.name}</li>)
+                return(<ListItem disablePadding key={index}><ListItemText sx={{textAlign: 'center'}} primary={item.name} /></ListItem>)
             })}
-                </ul>
+            </List>
+                
                 
             </div>
         </Drawer>
