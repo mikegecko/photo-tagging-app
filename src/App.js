@@ -1,16 +1,16 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import Start from './routes/Start';
-import PhotoPage from './routes/PhotoPage'
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Start from "./routes/Start";
+import PhotoPage from "./routes/PhotoPage";
+import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
-import { firebaseConfig } from './config';
-import { collection, addDoc, getDocs, setDoc, doc } from "firebase/firestore";
-import { Button } from '@mui/material';
-import { Timestamp } from 'firebase/firestore';
+import { firebaseConfig } from "./config";
+import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { Button } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 /* 
 ---------- TODO ----------
 1. Setup Firebase Database
@@ -65,39 +65,56 @@ const levelsRef = collection(db, "levels");
 const usersRef = collection(db, "users");
 
 function App() {
-  const [user,setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [items, setItems] = useState();
 
   const setUserFunc = (name) => {
-    const newUser = {...user};
-    if(name !== undefined){
-        newUser.name = name;
+    const newUser = { ...user };
+    if (name !== undefined) {
+      newUser.name = name;
     }
     setUser(newUser);
+  };
+  const validateSelection = () => {
+
   }
   useEffect(() => {
-    async function setUserDB(){
-      if(user.name !== undefined){
+    //Create user in database
+    async function setUserDB() {
+      if (user.name !== undefined) {
         const docRef = await addDoc(usersRef, {
           name: user.name,
-          startTime: serverTimestamp()
-        })
-      }
-      else{
+          startTime: serverTimestamp(),
+        });
+      } else {
         return;
       }
-      
     }
     setUserDB();
-}, [user])
+  }, [user]);
+  useEffect(() => {
+    //Get items from database
+    async function getItemsFromDB() {
+      const docSnap = await getDoc(doc(db, 'levels', 'level0'));
+      if(docSnap.exists()){
+        setItems(docSnap.data())
+        console.log(docSnap.data());
+      }
+      else{
+        console.error('Could not retrieve items from database')
+      }
+    }
+    getItemsFromDB();
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>
-      <Sidebar />
-      <Header user={user} />
-      <Routes>
-        <Route path='/' element={<Start setUserFunc={setUserFunc} />} />
-        <Route path='/lvl1' element={<PhotoPage />} />
-      </Routes>
+        <Sidebar />
+        <Header user={user} />
+        <Routes>
+          <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
+          <Route path="/lvl1" element={<PhotoPage />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
