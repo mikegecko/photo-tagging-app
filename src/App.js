@@ -11,6 +11,7 @@ import { firebaseConfig } from "./config";
 import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { Button } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
+import { Box } from "@mui/system";
 /* 
 ---------- TODO ----------
 1. Setup Firebase Database
@@ -56,6 +57,7 @@ import { Timestamp } from "firebase/firestore";
   ❌ Cannot go back to start page using back button
   ❌ Refreshing page causes loss of player name
   ✅ On menu close -> hide the dash svg
+  - Refreshing page breaks items state
 */
 
 // Initialize Firebase
@@ -67,6 +69,7 @@ const usersRef = collection(db, "users");
 function App() {
   const [user, setUser] = useState({});
   const [items, setItems] = useState();
+  const [loading, setLoading] = useState(true);
 
   const setUserFunc = (name) => {
     const newUser = { ...user };
@@ -77,8 +80,26 @@ function App() {
   };
   const validateSelection = () => {
 
-  }
+  };
+  const debugBoundingBox = (x0, y0, x1, y1, key) => {
+    const width = x1 - x0;
+    const height = y1 - y0;
+    return (
+      <Box
+        key={key}
+        sx={{
+          position: "absolute",
+          top: y0,
+          left: x0,
+          width: width,
+          height: height,
+          border: '1px solid red',
+        }}
+      ></Box>
+    );
+  };
   useEffect(() => {
+    setLoading(true);
     //Create user in database
     async function setUserDB() {
       if (user.name !== undefined) {
@@ -86,6 +107,7 @@ function App() {
           name: user.name,
           startTime: serverTimestamp(),
         });
+        setLoading(false);
       } else {
         return;
       }
@@ -95,13 +117,12 @@ function App() {
   useEffect(() => {
     //Get items from database
     async function getItemsFromDB() {
-      const docSnap = await getDoc(doc(db, 'levels', 'level0'));
-      if(docSnap.exists()){
-        setItems(docSnap.data())
+      const docSnap = await getDoc(doc(db, "levels", "level0"));
+      if (docSnap.exists()) {
+        setItems(docSnap.data());
         console.log(docSnap.data());
-      }
-      else{
-        console.error('Could not retrieve items from database')
+      } else {
+        console.error("Could not retrieve items from database");
       }
     }
     getItemsFromDB();
@@ -109,11 +130,11 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Sidebar />
+        <Sidebar loading={loading} items={items}/>
         <Header user={user} />
         <Routes>
           <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
-          <Route path="/lvl1" element={<PhotoPage />} />
+          <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} items={items} />} />
         </Routes>
       </BrowserRouter>
     </div>

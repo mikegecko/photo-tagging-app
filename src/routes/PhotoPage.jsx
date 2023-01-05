@@ -3,7 +3,7 @@ import {
   TransformComponent,
   TransformWrapper,
 } from "@pronestor/react-zoom-pan-pinch";
-import { useRef, useState } from "react";
+import { useDebugValue, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Menu, MenuItem } from "@mui/material";
 
@@ -85,6 +85,17 @@ export default function PhotoPage(props) {
     setAnchorEl(null);
     setHidden(true);
   };
+  const checkExists = () => {
+    if(props.items !== undefined){
+        
+    }
+    else{
+        return;
+    }
+  }
+  useEffect(() => {
+
+  })
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
@@ -129,6 +140,10 @@ export default function PhotoPage(props) {
                 <MenuItem onClick={handleClose}>Item</MenuItem>
               </Menu>
             </Box>
+            {props.loading ? <div></div> : props.items.items.map((item,index) => {
+            console.log(item);
+            return(props.debugBoundingBox(...item.p1,...item.p2, index))
+        })}
             <img src={imgJ} alt="Stuff" />
           </div>
         </TransformComponent>
