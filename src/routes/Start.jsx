@@ -2,6 +2,7 @@ import { Button, Divider, Paper, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
+import { Timestamp } from "firebase/firestore";
 
 export default function Start(props) {
     const [name, setName] = useState('');
@@ -9,7 +10,7 @@ export default function Start(props) {
     const handleOnClick = useCallback(() => navigate('/lvl1', {replace: true}), [navigate]);
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.setUserName(name);
+        props.setUserFunc(name);
         handleOnClick();
     }
     return(

@@ -6,7 +6,7 @@ import Start from './routes/Start';
 import PhotoPage from './routes/PhotoPage'
 import { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { firebaseConfig } from './config';
 import { collection, addDoc, getDocs, setDoc, doc } from "firebase/firestore";
 import { Button } from '@mui/material';
@@ -66,46 +66,36 @@ const usersRef = collection(db, "users");
 
 function App() {
   const [user,setUser] = useState({});
-  const [startTime, setStartTime] = useState(null);
 
-  const setUserName = (name) => {
-    setUser({...user,name:name});
-    const userTimeStamp = Timestamp.now();
-    setStartTime(userTimeStamp);
+  const setUserFunc = (name) => {
+    const newUser = {...user};
+    if(name !== undefined){
+        newUser.name = name;
+    }
+    setUser(newUser);
   }
   useEffect(() => {
-    async function getSnapshot(ref) {
-      const querySnapshot = await getDocs(ref);
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        console.log(doc.data());
-      });
+    async function setUserDB(){
+      if(user.name !== undefined){
+        const docRef = await addDoc(usersRef, {
+          name: user.name,
+          startTime: serverTimestamp()
+        })
+      }
+      else{
+        return;
+      }
+      
     }
-    getSnapshot(levelsRef);
-}, [])
-useEffect(() => {
-  async function setTimestamp () {
-    if(user.name === null || user.name === undefined){
-      console.log('Error: Empty name');
-      return;
-    }
-    else{
-      const docRef = await addDoc(usersRef, {
-        name: user,
-        startTime: Timestamp.now(),
-      });
-      console.log("User written with ID: ", docRef.id);
-    }
-  }
-  setTimestamp()
-},[user])
+    setUserDB();
+}, [user])
   return (
     <div className="App">
       <BrowserRouter>
       <Sidebar />
       <Header user={user} />
       <Routes>
-        <Route path='/' element={<Start setUserName={setUserName} />} />
+        <Route path='/' element={<Start setUserFunc={setUserFunc} />} />
         <Route path='/lvl1' element={<PhotoPage />} />
       </Routes>
       </BrowserRouter>
