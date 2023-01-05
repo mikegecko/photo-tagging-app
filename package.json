@@ -5,7 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/lab": "^5.0.0-alpha.114",
     "@mui/material": "^5.11.3",
     "@pronestor/react-zoom-pan-pinch": "^2.4.5",
     "@testing-library/jest-dom": "^5.16.5",
