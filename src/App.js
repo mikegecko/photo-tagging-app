@@ -136,9 +136,14 @@ function App() {
     });
     //If win flag is still true, player has won
     // Display leaderboard
-    const newItems = {...items};
-    newItems.isComplete = true;
-    setItems({...newItems})
+    if(winFlag){
+      const newItems = {...items};
+      newItems.isComplete = true;
+      setItems({...newItems})
+    }
+    else{
+      return;
+    }
   }
   useEffect(() => {
     setLoading(true);
