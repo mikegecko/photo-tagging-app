@@ -72,6 +72,7 @@ export default function PhotoPage(props) {
     const fx = ax * (1 / scale) + offsetx;
     const fy = ay * (1 / scale) + offsety;
     //fx fy are final mouse positions
+    console.log(ax *(1/scale), ay * (1/scale));
     setHidden(false);
     setAnim(true);
     setMarker({ x: fx, y: fy, mx: e.clientX, my: e.clientY });
@@ -136,6 +137,11 @@ export default function PhotoPage(props) {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        maxHeight: 124,
+                    }
+                }}
               >
                 <MenuItem onClick={handleClose}>Item</MenuItem>
                 {props.loading ? <div></div> : props.items.items.map((item, index) => {
@@ -146,7 +152,6 @@ export default function PhotoPage(props) {
               </Menu>
             </Box>
             {props.loading ? <div></div> : props.items.items.map((item,index) => {
-            console.log(item);
             return(props.debugBoundingBox(...item.p1,...item.p2, index))
         })}
             <img src={imgJ} alt="Stuff" />
