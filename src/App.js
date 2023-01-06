@@ -76,6 +76,7 @@ function App() {
   const [user, setUser] = useState({});
   const [items, setItems] = useState();
   const [loading, setLoading] = useState(true);
+  const [docRefID, setDocRefID] = useState(null);
 
   const setUserFunc = (name) => {
     const newUser = { ...user };
@@ -139,7 +140,7 @@ function App() {
     if(winFlag){
       const newItems = {...items};
       newItems.isComplete = true;
-      setItems({...newItems})
+      setItems({...newItems});
     }
     else{
       return;
@@ -155,6 +156,7 @@ function App() {
           startTime: serverTimestamp(),
           level0:items
         });
+        setDocRefID(docRef.id);
         setLoading(false);
       } else {
         return;
@@ -165,6 +167,7 @@ function App() {
   useEffect(() => {
     //Update server? 
     console.log(items);
+    console.log(docRefID);
   },[items])
   useEffect(() => {
     //Get items from database
