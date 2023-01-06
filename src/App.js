@@ -26,7 +26,6 @@ import { Box } from "@mui/system";
   - Sidebar design finalization
     * Sidebar Items get crossed out when selection is a match
     * Figure out how to display several items with same name
-    * 
   - Start Page design
     * Add background image
   - Image page design
@@ -63,7 +62,7 @@ import { Box } from "@mui/system";
   ❌ Cannot go back to start page using back button
   ❌ Refreshing page causes loss of player name
   ✅ On menu close -> hide the dash svg
-  - Refreshing page breaks items state
+  ✅ Refreshing page breaks items state
   - Double clicking near edge of screen breaks svg
 */
 
@@ -86,9 +85,11 @@ function App() {
     setUser(newUser);
   };
   const validateSelection = (x,y,id) => {
+    // Call and check against DB data to prevent cheating
     const searchItems = [];
-    items.items.forEach(item => {
+    items.items.forEach((item, index) => {
       if(item.name === id){
+        item.index = index;
         searchItems.push(item)
       }
       else{
@@ -99,6 +100,9 @@ function App() {
       if(item.p1[0] < x && item.p1[1] < y){
         if(item.p2[0] > x && item.p2[1] > y){
           console.log('BOOM');
+          const newItems = {...items};
+          newItems.items[item.index].isFound = true;
+          setItems({...newItems});
         }
       }
     });
@@ -128,6 +132,7 @@ function App() {
         const docRef = await addDoc(usersRef, {
           name: user.name,
           startTime: serverTimestamp(),
+          level0:items
         });
         setLoading(false);
       } else {
@@ -137,13 +142,17 @@ function App() {
     setUserDB();
   }, [user]);
   useEffect(() => {
+    //Update server? 
+    console.log(items);
+  },[items])
+  useEffect(() => {
     //Get items from database
     async function getItemsFromDB() {
       const docSnap = await getDoc(doc(db, "levels", "level0"));
       setLoading(false);
       if (docSnap.exists()) {
         setItems(docSnap.data());
-        console.log(docSnap.data());
+        //console.log(docSnap.data());
       } else {
         console.error("Could not retrieve items from database");
       }
