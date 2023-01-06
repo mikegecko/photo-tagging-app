@@ -22,7 +22,7 @@ export default function PhotoPage(props) {
   const [anim, setAnim] = useState(false);
   const [hidden, setHidden] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [doubleClickPos, setDoubleClickPos] = useState({x:0, y:0})
+  const [doubleClickPos, setDoubleClickPos] = useState({ x: 0, y: 0 });
   const open = Boolean(anchorEl);
   const dash = (
     <svg
@@ -44,8 +44,8 @@ export default function PhotoPage(props) {
   const circle = (
     <svg
       className="circles"
-      width={10 * (1 / scale)+1.3}
-      height={10 * (1 / scale)+1.3}
+      width={10 * (1 / scale) + 1.3}
+      height={10 * (1 / scale) + 1.3}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -73,8 +73,8 @@ export default function PhotoPage(props) {
     const fx = ax * (1 / scale) + offsetx;
     const fy = ay * (1 / scale) + offsety;
     //fx fy are final mouse positions
-    console.log(ax *(1/scale), ay * (1/scale));
-    setDoubleClickPos({x:ax *(1/scale), y:ay * (1/scale)})
+    console.log(ax * (1 / scale), ay * (1 / scale));
+    setDoubleClickPos({ x: ax * (1 / scale), y: ay * (1 / scale) });
     setHidden(false);
     setAnim(true);
     setMarker({ x: fx, y: fy, mx: e.clientX, my: e.clientY });
@@ -90,20 +90,16 @@ export default function PhotoPage(props) {
   };
   const handleClick = (e) => {
     const id = e.target.id;
-    props.validateSelection(doubleClickPos.x,doubleClickPos.y, id)
+    props.validateSelection(doubleClickPos.x, doubleClickPos.y, id);
     handleClose();
-  }
+  };
   const checkExists = () => {
-    if(props.items !== undefined){
-        
+    if (props.items !== undefined) {
+    } else {
+      return;
     }
-    else{
-        return;
-    }
-  }
-  useEffect(() => {
-
-  })
+  };
+  useEffect(() => {});
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
@@ -145,21 +141,39 @@ export default function PhotoPage(props) {
                 open={open}
                 onClose={handleClose}
                 PaperProps={{
-                    style: {
-                        maxHeight: 124,
-                    }
+                  style: {
+                    maxHeight: 124,
+                  },
                 }}
               >
-                {props.loading ? <div></div> : props.items.items.map((item, index) => {
-                    return(
-                        <MenuItem onClick={handleClick} key={index} id={item.name}>{item.name}</MenuItem>
-                    )
-                })}
+                {props.loading ? (
+                  <div>...loading</div>
+                ) : (
+                  props.items.items.map((item, index) => {
+                    if (item.isFound) {
+                      return;
+                    } else {
+                      return (
+                        <MenuItem
+                          onClick={handleClick}
+                          key={index}
+                          id={item.name}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      );
+                    }
+                  })
+                )}
               </Menu>
             </Box>
-            {props.loading ? <div></div> : props.items.items.map((item,index) => {
-            return(props.debugBoundingBox(...item.p1,...item.p2, index))
-        })}
+            {props.loading ? (
+              <div></div>
+            ) : (
+              props.items.items.map((item, index) => {
+                return props.debugBoundingBox(...item.p1, ...item.p2, index);
+              })
+            )}
             <img src={imgJ} alt="Stuff" />
           </div>
         </TransformComponent>
