@@ -9,7 +9,7 @@ export default function Sidebar(props){
                 <h3>Items</h3>
                 <List>
                 {props.loading ? <div>...loading</div> : props.items.items.map((item, index) => {
-                return(<ListItem disablePadding key={index}><ListItemText sx={{textAlign: 'center'}} primary={item.name} /></ListItem>)
+                return(<ListItem disabled={item.isFound} disablePadding key={index}><ListItemText sx={{textAlign: 'center'}} primary={item.name} /></ListItem>)
             })}
             </List>
                 
