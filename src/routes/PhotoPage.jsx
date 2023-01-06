@@ -171,7 +171,12 @@ export default function PhotoPage(props) {
               <div></div>
             ) : (
               props.items.items.map((item, index) => {
-                return props.debugBoundingBox(...item.p1, ...item.p2, index);
+                if(item.isFound){
+                    return props.debugBoundingBox(...item.p1, ...item.p2, index);
+                }
+                else{
+                    return;
+                }
               })
             )}
             <img src={imgJ} alt="Stuff" />
