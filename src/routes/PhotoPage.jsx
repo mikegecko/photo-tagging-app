@@ -143,7 +143,7 @@ export default function PhotoPage(props) {
                     }
                 }}
               >
-                <MenuItem onClick={handleClose}>Item</MenuItem>
+                <MenuItem onClick={handleClose} >Item</MenuItem>
                 {props.loading ? <div></div> : props.items.items.map((item, index) => {
                     return(
                         <MenuItem onClick={handleClose} key={index}>{item.name}</MenuItem>

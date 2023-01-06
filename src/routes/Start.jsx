@@ -15,7 +15,7 @@ export default function Start(props) {
     return(
         <div className="overlay">
             <Box sx={{width: "300px"}}>
-                <p>Tagging App</p> 
+                <p>Seek and Ye Shall Find</p> 
                 <form onSubmit={handleSubmit}>
                 <Divider variant="middle"/>
                 <TextField required={true} value={name} type={'text'} id={'name'} onChange={e => setName(e.target.value)} variant="outlined" label="Name" sx={{margin:"1rem"}}/>

@@ -8,7 +8,7 @@ export default function Header(props){
             </div>
             <Divider orientation="vertical" variant='middle' flexItem />
             <div>
-                ?/10
+                <b>Seek and Ye Shall Find</b>
             </div>
             <Divider orientation="vertical" variant='middle' flexItem />
             <div>Score: {props.user.score}</div>
