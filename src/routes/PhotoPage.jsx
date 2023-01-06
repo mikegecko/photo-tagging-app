@@ -22,6 +22,7 @@ export default function PhotoPage(props) {
   const [anim, setAnim] = useState(false);
   const [hidden, setHidden] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [doubleClickPos, setDoubleClickPos] = useState({x:0, y:0})
   const open = Boolean(anchorEl);
   const dash = (
     <svg
@@ -73,6 +74,7 @@ export default function PhotoPage(props) {
     const fy = ay * (1 / scale) + offsety;
     //fx fy are final mouse positions
     console.log(ax *(1/scale), ay * (1/scale));
+    setDoubleClickPos({x:ax *(1/scale), y:ay * (1/scale)})
     setHidden(false);
     setAnim(true);
     setMarker({ x: fx, y: fy, mx: e.clientX, my: e.clientY });
@@ -86,6 +88,11 @@ export default function PhotoPage(props) {
     setAnchorEl(null);
     setHidden(true);
   };
+  const handleClick = (e) => {
+    const id = e.target.id;
+    props.validateSelection(doubleClickPos.x,doubleClickPos.y, id)
+    handleClose();
+  }
   const checkExists = () => {
     if(props.items !== undefined){
         
@@ -143,10 +150,9 @@ export default function PhotoPage(props) {
                     }
                 }}
               >
-                <MenuItem onClick={handleClose} >Item</MenuItem>
                 {props.loading ? <div></div> : props.items.items.map((item, index) => {
                     return(
-                        <MenuItem onClick={handleClose} key={index}>{item.name}</MenuItem>
+                        <MenuItem onClick={handleClick} key={index} id={item.name}>{item.name}</MenuItem>
                     )
                 })}
               </Menu>

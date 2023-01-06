@@ -85,8 +85,23 @@ function App() {
     }
     setUser(newUser);
   };
-  const validateSelection = () => {
-
+  const validateSelection = (x,y,id) => {
+    const searchItems = [];
+    items.items.forEach(item => {
+      if(item.name === id){
+        searchItems.push(item)
+      }
+      else{
+        return;
+      }
+    });
+    searchItems.forEach(item => {
+      if(item.p1[0] < x && item.p1[1] < y){
+        if(item.p2[0] > x && item.p2[1] > y){
+          console.log('BOOM');
+        }
+      }
+    });
   };
   const debugBoundingBox = (x0, y0, x1, y1, key) => {
     const width = x1 - x0;
@@ -142,7 +157,7 @@ function App() {
         <Header user={user} />
         <Routes>
           <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
-          <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} items={items} />} />
+          <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} validateSelection={validateSelection} items={items} />} />
         </Routes>
       </BrowserRouter>
     </div>
