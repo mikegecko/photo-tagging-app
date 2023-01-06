@@ -24,12 +24,18 @@ import { Box } from "@mui/system";
 2. Finish designing UI
   - Sidebar design finalization
     * Sidebar Items get crossed out when selection is a match
+    * Figure out how to display several items with same name
+    * 
   - Start Page design
     * Add background image
   - Image page design
     ✅ Pannable, zoomable image
     * Image controls for resetting / centering image
   - Leaderboard Page creation
+    - Score function calculates time from finish - start
+      * do this for every user and store it as a number
+      * query the lowest 10 scores
+      * place player at bottom if his score is lower than the lowest 10 - maybe include position
   - Implement either score or timer
   - Add info modal or something
     * Displays info about how to play the game
@@ -57,6 +63,7 @@ import { Box } from "@mui/system";
   ❌ Refreshing page causes loss of player name
   ✅ On menu close -> hide the dash svg
   - Refreshing page breaks items state
+  - Double clicking near edge of screen breaks svg
 */
 
 // Initialize Firebase
@@ -117,6 +124,7 @@ function App() {
     //Get items from database
     async function getItemsFromDB() {
       const docSnap = await getDoc(doc(db, "levels", "level0"));
+      setLoading(false);
       if (docSnap.exists()) {
         setItems(docSnap.data());
         console.log(docSnap.data());
