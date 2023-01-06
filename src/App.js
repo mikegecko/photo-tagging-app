@@ -124,6 +124,22 @@ function App() {
       ></Box>
     );
   };
+  const checkWin = () => {
+    let winFlag = false;
+    items.items.forEach(item => {
+      if(item.isFound){
+        winFlag = true;
+      }
+      else{
+        winFlag = false;
+      }
+    });
+    //If win flag is still true, player has won
+    // Display leaderboard
+    const newItems = {...items};
+    newItems.isComplete = true;
+    setItems({...newItems})
+  }
   useEffect(() => {
     setLoading(true);
     //Create user in database
