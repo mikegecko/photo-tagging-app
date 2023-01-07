@@ -93,12 +93,6 @@ export default function PhotoPage(props) {
     props.validateSelection(doubleClickPos.x, doubleClickPos.y, id);
     handleClose();
   };
-  const checkExists = () => {
-    if (props.items !== undefined) {
-    } else {
-      return;
-    }
-  };
   useEffect(() => {});
   return (
     <div className="images" onDoubleClick={dbClick}>
@@ -151,7 +145,7 @@ export default function PhotoPage(props) {
                 ) : (
                   props.items.items.map((item, index) => {
                     if (item.isFound) {
-                      return;
+                      return<></>;
                     } else {
                       return (
                         <MenuItem
@@ -175,7 +169,7 @@ export default function PhotoPage(props) {
                     return props.debugBoundingBox(...item.p1, ...item.p2, index);
                 }
                 else{
-                    return;
+                    return<></>;
                 }
               })
             )}

@@ -1,4 +1,4 @@
-import { Divider, Drawer, Icon, List, ListItem, ListItemText, Tooltip } from "@mui/material";
+import { Divider, Drawer, List, ListItem, ListItemText, Tooltip } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 
 export default function Sidebar(props){
