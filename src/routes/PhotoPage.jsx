@@ -5,7 +5,7 @@ import {
 } from "@pronestor/react-zoom-pan-pinch";
 import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
-import { Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem } from "@mui/material";
 
 /*
 ----------- TODO -----------
@@ -112,6 +112,7 @@ export default function PhotoPage(props) {
         minPositionY={-1500}
         maxPositionY={5000}
       >
+        <Button variant="contained" size="small" sx={{position: 'absolute', zIndex: 1, top: 60, left: 210}} >Reset</Button>
         <TransformComponent>
           <div ref={imgref}>
             <Box
