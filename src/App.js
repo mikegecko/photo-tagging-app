@@ -30,7 +30,7 @@ import { Box } from "@mui/system";
     * Add background image
   - Image page design
     ✅ Pannable, zoomable image
-    * Image controls for resetting / centering image
+    ✅ Image controls for resetting / centering image
     * Replace debug bounding box ?
   - Leaderboard Page creation
     - Score function calculates time from finish - start
