@@ -16,7 +16,7 @@ import { Box } from "@mui/system";
   - Store Users name in database
     * Give session token or move name submission to level completion
     * [Best Option] Or store name locally and store it until level completion
-    * Copy Items DB to user DB for tracking
+    ✅  Copy Items DB to user DB for tracking
   - Figure out structure of user data
   ✅ Figure out structure of item data
     * duplicate item data into user data ?
@@ -24,7 +24,7 @@ import { Box } from "@mui/system";
   - Image storage
 2. Finish designing UI
   - Sidebar design finalization
-    * Sidebar Items get crossed out when selection is a match
+    ✅ Sidebar Items get crossed out when selection is a match
     * Figure out how to display several items with same name
   - Start Page design
     * Add background image
