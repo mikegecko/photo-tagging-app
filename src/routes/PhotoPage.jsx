@@ -24,6 +24,7 @@ export default function PhotoPage(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [doubleClickPos, setDoubleClickPos] = useState({ x: 0, y: 0 });
   const open = Boolean(anchorEl);
+  const transRef = useRef();
   const dash = (
     <svg
       className="lines"
@@ -111,8 +112,9 @@ export default function PhotoPage(props) {
         maxPositionX={50000}
         minPositionY={-1500}
         maxPositionY={5000}
+        ref={transRef}
       >
-        <Button variant="contained" size="small" sx={{position: 'absolute', zIndex: 1, top: 60, left: 210}} >Reset</Button>
+        <Button variant="contained" size="small" sx={{position: 'absolute', zIndex: 1, top: 60, left: 210}} onClick={() => transRef.current.resetTransform()}>Reset</Button>
         <TransformComponent>
           <div ref={imgref}>
             <Box
@@ -170,7 +172,7 @@ export default function PhotoPage(props) {
                     return props.debugBoundingBox(...item.p1, ...item.p2, index);
                 }
                 else{
-                    return<></>;
+                    return;
                 }
               })
             )}
