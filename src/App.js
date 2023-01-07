@@ -15,13 +15,13 @@ import { Box } from "@mui/system";
 1. Setup Firebase Database
   - Store Users name in database
     * Give session token or move name submission to level completion
-    * [Best Option] Or store name locally and store it until level completion
+    ✅ [Best Option] Or store name locally and store it until level completion
     ✅  Copy Items DB to user DB for tracking
   - Figure out structure of user data
   ✅ Figure out structure of item data
-    * duplicate item data into user data ?
+    ✅ duplicate item data into user data ?
   - Authentication / Session token ?
-  - Image storage
+  ✅ Image storage
 2. Finish designing UI
   - Sidebar design finalization
     ✅ Sidebar Items get crossed out when selection is a match
@@ -31,17 +31,18 @@ import { Box } from "@mui/system";
   - Image page design
     ✅ Pannable, zoomable image
     * Image controls for resetting / centering image
+    * Replace debug bounding box ?
   - Leaderboard Page creation
     - Score function calculates time from finish - start
       * do this for every user and store it as a number
       * query the lowest 10 scores
       * place player at bottom if his score is lower than the lowest 10 - maybe include position
   - Implement either score or timer
-  - Add info modal or something
-    * Displays info about how to play the game
-    * 'Double click to tag item!'
+  ✅ Add info modal or something
+    ✅ Displays info about how to play the game
+    ✅ 'Double click to tag item!'
 3. Image search
-  - Find images to use for searching
+  ✅ Find images to use for searching
   ✅ Design Tagging system
     ✅ Animate click that extends a line from click point
       then opens a selection dialogue
