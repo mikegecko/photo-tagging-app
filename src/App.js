@@ -1,12 +1,17 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Start from "./routes/Start";
 import PhotoPage from "./routes/PhotoPage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { firebaseConfig } from "./config";
 import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { Box } from "@mui/system";
@@ -61,8 +66,8 @@ import LeaderboardPage from "./routes/LeaderboardPage";
 
 ---------- BUGS ----------
   ✅ Zooming breaks double click menu and svg
-  ❌ Cannot go back to start page using back button
-  ❌ Refreshing page causes loss of player name
+  ✅ Cannot go back to start page using back button
+  ✅ Refreshing page causes loss of player name
   ✅ On menu close -> hide the dash svg
   ✅ Refreshing page breaks items state
   - Double clicking near edge of screen breaks svg
@@ -73,12 +78,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const levelsRef = collection(db, "levels");
 const usersRef = collection(db, "users");
-
 function App() {
   const [user, setUser] = useState({});
   const [items, setItems] = useState();
   const [loading, setLoading] = useState(true);
   const [docRefID, setDocRefID] = useState(null);
+  const [time, setTime] = useState(null);
 
   const setUserFunc = (name) => {
     const newUser = { ...user };
@@ -87,25 +92,24 @@ function App() {
     }
     setUser(newUser);
   };
-  const validateSelection = (x,y,id) => {
+  const validateSelection = (x, y, id) => {
     // Call and check against DB data to prevent cheating
     const searchItems = [];
     items.items.forEach((item, index) => {
-      if(item.name === id){
+      if (item.name === id) {
         item.index = index;
-        searchItems.push(item)
-      }
-      else{
+        searchItems.push(item);
+      } else {
         return;
       }
     });
-    searchItems.forEach(item => {
-      if(item.p1[0] < x && item.p1[1] < y){
-        if(item.p2[0] > x && item.p2[1] > y){
-          console.log('Found Item!');
-          const newItems = {...items};
+    searchItems.forEach((item) => {
+      if (item.p1[0] < x && item.p1[1] < y) {
+        if (item.p2[0] > x && item.p2[1] > y) {
+          console.log("Found Item!");
+          const newItems = { ...items };
           newItems.items[item.index].isFound = true;
-          setItems({...newItems});
+          setItems({ ...newItems });
         }
       }
     });
@@ -123,80 +127,96 @@ function App() {
           left: x0,
           width: width,
           height: height,
-          border: '1px solid red',
+          border: "1px solid red",
         }}
       ></Box>
     );
   };
   const checkWin = () => {
     let count = 0;
-    items.items.forEach(item => {
-      if(item.isFound){
+    items.items.forEach((item) => {
+      if (item.isFound) {
         return;
-      }
-      else{
+      } else {
         count++;
       }
     });
-    if(count > 0){
+    if (count > 0) {
       return false;
-    }
-    else{
-      const newItems = {...items};
+    } else {
+      const newItems = { ...items };
       newItems.isComplete = true;
-      setItems({...newItems});
+      setItems({ ...newItems });
       return true;
     }
-    
-  }
+  };
+
   useEffect(() => {
     setLoading(true);
     //Create user in database
+
     async function setUserDB() {
       if (user.name !== undefined) {
         const docRef = await addDoc(usersRef, {
           name: user.name,
           startTime: serverTimestamp(),
-          level0:items
+          level0: items,
         });
         setDocRefID(docRef.id);
         setLoading(false);
       } else {
-        console.error('Error: Username is undefined')
+        console.error("Error: Username is undefined");
         return;
       }
     }
     setUserDB();
   }, [user]);
   useEffect(() => {
-    //Update server? 
-    async function updateItemsDB() {
-      if(docRefID !== null){
-        await updateDoc(doc(db,'users',docRefID), {
-          level0:items
-        });
-        if(items.isComplete){
-          await updateDoc(doc(db,'users',docRefID),{
-            endTime: serverTimestamp()
-          })
-        }
-        else{
+    setLoading(true)
+    async function setUserTime() {
+      if (docRefID !== null && items.isComplete) {
+        const docSnap = await getDoc(doc(db, "users", docRefID));
+        if (docSnap.exists()) {
+          let userDB = docSnap.data();
+          const time = (Timestamp.now().toMillis() - userDB.startTime.toMillis())/1000;
+          setTime(time);
+          await updateDoc(doc(db, "users", docRefID), {
+            time: time,
+          });
           return;
         }
       }
-      else{
-        console.error('Error: No userID provided for DB');
+      return;
+    }
+    async function updateItemsDB() {
+      if (docRefID !== null) {
+        await updateDoc(doc(db, "users", docRefID), {
+          level0: items,
+        });
+        if (items.isComplete) {
+          await updateDoc(doc(db, "users", docRefID), {
+            endTime: serverTimestamp(),
+          });
+          setUserTime();
+        } else {
+          return;
+        }
+      } else {
+        console.error("Error: No userID provided for DB");
         return;
       }
     }
     updateItemsDB();
+
+    
     console.log(items);
-  },[items])
+    setLoading(false)
+  }, [items]);
   useEffect(() => {
     //Get items from database
     async function getItemsFromDB() {
+      setLoading(true);
       const docSnap = await getDoc(doc(db, "levels", "level0"));
-      setLoading(false);
       if (docSnap.exists()) {
         setItems(docSnap.data());
         //console.log(docSnap.data());
@@ -204,22 +224,33 @@ function App() {
         console.error("Could not retrieve items from database");
       }
     }
+    setLoading(false);
     getItemsFromDB();
     return () => {
-      if(window.performance.navigation.type == 1){
-        window.location.href = '/';
+      if (window.performance.navigation.type == 1) {
+        window.location.href = "/";
       }
-    }
+    };
   }, []);
   return (
     <div className="App">
       <BrowserRouter>
-        <Sidebar loading={loading} items={items}/>
+        <Sidebar loading={loading} items={items} />
         <Header user={user} />
         <Routes>
           <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
-          <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} validateSelection={validateSelection} items={items} />} />
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route
+            path="/lvl1"
+            element={
+              <PhotoPage
+                loading={loading}
+                debugBoundingBox={debugBoundingBox}
+                validateSelection={validateSelection}
+                items={items}
+              />
+            }
+          />
+          <Route path="/leaderboard" element={<LeaderboardPage db={db} user={user} time={time} loading={loading} />} />
         </Routes>
       </BrowserRouter>
     </div>
