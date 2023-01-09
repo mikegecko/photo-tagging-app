@@ -18,7 +18,7 @@ import LeaderboardPage from "./routes/LeaderboardPage";
     * Give session token or move name submission to level completion
     ✅ [Best Option] Or store name locally and store it until level completion
     ✅  Copy Items DB to user DB for tracking
-  - Figure out structure of user data
+  ✅ Figure out structure of user data
   ✅ Figure out structure of item data
     ✅ duplicate item data into user data ?
   - Authentication / Session token ?
@@ -205,6 +205,11 @@ function App() {
       }
     }
     getItemsFromDB();
+    return () => {
+      if(window.performance.navigation.type == 1){
+        window.location.href = '/';
+      }
+    }
   }, []);
   return (
     <div className="App">
