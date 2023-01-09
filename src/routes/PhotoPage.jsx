@@ -148,7 +148,7 @@ export default function PhotoPage(props) {
                 ) : (
                   props.items.items.map((item, index) => {
                     if (item.isFound) {
-                      return<></>;
+                      return;
                     } else {
                       return (
                         <MenuItem
