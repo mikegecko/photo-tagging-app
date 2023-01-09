@@ -213,6 +213,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
           <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} validateSelection={validateSelection} items={items} />} />
+          <Route path="/leaderboard" element{<LeaderboardPage />}
         </Routes>
       </BrowserRouter>
     </div>
