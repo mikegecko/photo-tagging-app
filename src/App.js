@@ -129,7 +129,6 @@ function App() {
   };
   const checkWin = () => {
     let count = 0;
-    let winFlag = false;
     items.items.forEach(item => {
       if(item.isFound){
         return;
@@ -139,22 +138,15 @@ function App() {
       }
     });
     if(count > 0){
-      winFlag = false;
+      return false;
     }
     else{
-      winFlag = true;
-    }
-    console.log(count);
-    //If win flag is still true, player has won
-    // Display leaderboard
-    if(winFlag){
       const newItems = {...items};
       newItems.isComplete = true;
       setItems({...newItems});
+      return true;
     }
-    else{
-      return;
-    }
+    
   }
   useEffect(() => {
     setLoading(true);
@@ -169,6 +161,7 @@ function App() {
         setDocRefID(docRef.id);
         setLoading(false);
       } else {
+        console.error('Error: Username is undefined')
         return;
       }
     }
@@ -180,10 +173,19 @@ function App() {
       if(docRefID !== null){
         await updateDoc(doc(db,'users',docRefID), {
           level0:items
-        })
+        });
+        if(items.isComplete){
+          await updateDoc(doc(db,'users',docRefID),{
+            endTime: serverTimestamp()
+          })
+        }
+        else{
+          return;
+        }
       }
       else{
         console.error('Error: No userID provided for DB');
+        return;
       }
     }
     updateItemsDB();
