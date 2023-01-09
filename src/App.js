@@ -10,6 +10,7 @@ import { getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
 import { firebaseConfig } from "./config";
 import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { Box } from "@mui/system";
+import LeaderboardPage from "./routes/LeaderboardPage";
 /* 
 ---------- TODO ----------
 1. Setup Firebase Database
@@ -213,7 +214,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Start setUserFunc={setUserFunc} />} />
           <Route path="/lvl1" element={<PhotoPage loading={loading} debugBoundingBox={debugBoundingBox} validateSelection={validateSelection} items={items} />} />
-          <Route path="/leaderboard" element={<LeaderboardPage />}
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
         </Routes>
       </BrowserRouter>
     </div>
