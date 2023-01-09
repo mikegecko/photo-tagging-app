@@ -6,7 +6,7 @@ import Start from "./routes/Start";
 import PhotoPage from "./routes/PhotoPage";
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getFirestore, serverTimestamp, updateDoc } from "firebase/firestore";
 import { firebaseConfig } from "./config";
 import { collection, addDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { Box } from "@mui/system";
@@ -101,13 +101,14 @@ function App() {
     searchItems.forEach(item => {
       if(item.p1[0] < x && item.p1[1] < y){
         if(item.p2[0] > x && item.p2[1] > y){
-          console.log('BOOM');
+          console.log('Found Item!');
           const newItems = {...items};
           newItems.items[item.index].isFound = true;
           setItems({...newItems});
         }
       }
     });
+    checkWin();
   };
   const debugBoundingBox = (x0, y0, x1, y1, key) => {
     const width = x1 - x0;
@@ -127,15 +128,23 @@ function App() {
     );
   };
   const checkWin = () => {
+    let count = 0;
     let winFlag = false;
     items.items.forEach(item => {
       if(item.isFound){
-        winFlag = true;
+        return;
       }
       else{
-        winFlag = false;
+        count++;
       }
     });
+    if(count > 0){
+      winFlag = false;
+    }
+    else{
+      winFlag = true;
+    }
+    console.log(count);
     //If win flag is still true, player has won
     // Display leaderboard
     if(winFlag){
@@ -167,8 +176,18 @@ function App() {
   }, [user]);
   useEffect(() => {
     //Update server? 
+    async function updateItemsDB() {
+      if(docRefID !== null){
+        await updateDoc(doc(db,'users',docRefID), {
+          level0:items
+        })
+      }
+      else{
+        console.error('Error: No userID provided for DB');
+      }
+    }
+    updateItemsDB();
     console.log(items);
-    console.log(docRefID);
   },[items])
   useEffect(() => {
     //Get items from database
