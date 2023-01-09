@@ -106,7 +106,7 @@ export default function PhotoPage(props) {
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper
-        initialPositionX={0}
+        inigalPositionX={0}
         initialPositionY={0}
         initialScale={1}
         limitToBounds={false}
