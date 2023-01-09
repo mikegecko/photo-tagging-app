@@ -3,9 +3,10 @@ import {
   TransformComponent,
   TransformWrapper,
 } from "@pronestor/react-zoom-pan-pinch";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Button, Menu, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 /*
 ----------- TODO -----------
@@ -25,6 +26,10 @@ export default function PhotoPage(props) {
   const [doubleClickPos, setDoubleClickPos] = useState({ x: 0, y: 0 });
   const open = Boolean(anchorEl);
   const transRef = useRef();
+  const navigate = useNavigate();
+
+  const handleWin = useCallback(() => navigate('/leaderboard', {replace: true}), [navigate]);
+
   const dash = (
     <svg
       className="lines"
@@ -88,6 +93,9 @@ export default function PhotoPage(props) {
   const handleClose = () => {
     setAnchorEl(null);
     setHidden(true);
+    if(props.items.isComplete){
+        handleWin();
+    }
   };
   const handleClick = (e) => {
     const id = e.target.id;
@@ -180,6 +188,7 @@ export default function PhotoPage(props) {
           </div>
         </TransformComponent>
       </TransformWrapper>
+      
     </div>
   );
 }
