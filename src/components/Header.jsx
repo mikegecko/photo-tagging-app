@@ -12,7 +12,7 @@ export default function Header(props){
                 <b>Seek and Ye Shall Find</b>
             </div>
             <Divider orientation="vertical" variant='middle' flexItem />
-            <Timer />
+            <Timer user={props.user} />
         </Paper>
     )
 }

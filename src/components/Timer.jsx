@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Timer () {
+export default function Timer (props) {
     const {timer, isActive, handleStart, handleReset} = useTimer(0);
     useEffect(() => {
         handleStart();
     },[])
+    useEffect(() => {
+        handleReset();
+        handleStart();
+    },[props.user])
     return(
         <>
         <p>{formatTime(timer)}</p>

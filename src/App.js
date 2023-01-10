@@ -73,7 +73,8 @@ import LeaderboardPage from "./routes/LeaderboardPage";
   - Double clicking near edge of screen breaks svg
   - Refreshing Page breaks stuff again
   ✅ Finishing all items doesnt trigger win immediately
-  - Leaderboard times not sorting properly
+  ✅ Leaderboard times not sorting properly
+  - Time starts even on startpage
 */
 
 // Initialize Firebase

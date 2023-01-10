@@ -8,6 +8,7 @@ export default function Start(props) {
     const navigate = useNavigate();
     const handleOnClick = useCallback(() => navigate('/lvl1', {replace: true}), [navigate]);
     const handleSubmit = (e) => {
+        //reset the timer
         e.preventDefault();
         props.setUserFunc(name);
         handleOnClick();
