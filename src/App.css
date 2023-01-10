@@ -32,6 +32,9 @@
   width: 100vw;
   align-items: center;
   justify-content: center;
+  background-image: url('../src/images/gradienta.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .images{
   width: 100%;
