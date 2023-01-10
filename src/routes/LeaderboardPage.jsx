@@ -26,8 +26,15 @@ export default function LeaderboardPage(props) {
     }, [])
 
     const sortUsers = () => {
-        let sorted = usersData.sort(
-            (u1,u2) => (u1.time > u2.time) ? 1 : (u1.time < u2.time) ? -1 : 0);
+        let clean = [];
+        for (let index = 0; index < usersData.length; index++) {
+            const item = usersData[index];
+            if(item.time){
+                clean.push(item);
+            }
+        }
+        let sorted = clean.sort(
+            (u1,u2) => u1.time - u2.time)
         return(sorted);
     }
     return(
