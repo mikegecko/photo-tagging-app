@@ -93,6 +93,7 @@ export default function PhotoPage(props) {
   const handleClose = () => {
     setAnchorEl(null);
     setHidden(true);
+    //This doesnt trigger at right time
     if(props.items.isComplete){
         handleWin();
     }
@@ -102,7 +103,14 @@ export default function PhotoPage(props) {
     props.validateSelection(doubleClickPos.x, doubleClickPos.y, id);
     handleClose();
   };
-  useEffect(() => {});
+  useEffect(() => {
+    if(props.items !== undefined){
+        if(props.items.isComplete){
+            handleWin();
+        }
+    }
+    
+  },[props.items]);
   return (
     <div className="images" onDoubleClick={dbClick}>
       <TransformWrapper

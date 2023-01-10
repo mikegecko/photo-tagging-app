@@ -71,6 +71,8 @@ import LeaderboardPage from "./routes/LeaderboardPage";
   ✅ On menu close -> hide the dash svg
   ✅ Refreshing page breaks items state
   - Double clicking near edge of screen breaks svg
+  - Refreshing Page breaks stuff again
+  - Finishing all items doesnt trigger win immediately
 */
 
 // Initialize Firebase
@@ -84,6 +86,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [docRefID, setDocRefID] = useState(null);
   const [time, setTime] = useState(null);
+
 
   const setUserFunc = (name) => {
     const newUser = { ...user };
