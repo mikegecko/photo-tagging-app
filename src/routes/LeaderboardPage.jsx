@@ -32,11 +32,10 @@ export default function LeaderboardPage(props) {
     }
     return(
         <div className="overlay scroll">
-            <Box sx={{overflow:'auto', width: 200}}>
+            <Box sx={{overflow:'auto', width: 200, padding: '1rem'}}>
                 <h3>Leaderboard</h3>
-                <Divider />
                 <TableContainer>
-                    <Table sx={{width: 200}}>
+                    <Table sx={{width: 200, bgcolor:'white', borderRadius: '1rem 1rem 0 0'}}>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
@@ -65,9 +64,8 @@ export default function LeaderboardPage(props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Divider />
-                <Box>
-                    <div>Name: {props.user.name}</div>
+                <Box sx={{bgcolor: 'white', borderRadius: '0 0 1rem 1rem' , fontSize: '14px', display:'flex', flexDirection: 'column', gap: '.5rem', padding: '.5rem'}}>
+                    <div>Name:{props.user.name}</div>
                     <div>Time: {props.time}</div>
                 </Box>
             </Box>

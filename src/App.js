@@ -72,7 +72,7 @@ import LeaderboardPage from "./routes/LeaderboardPage";
   ✅ Refreshing page breaks items state
   - Double clicking near edge of screen breaks svg
   - Refreshing Page breaks stuff again
-  - Finishing all items doesnt trigger win immediately
+  ✅ Finishing all items doesnt trigger win immediately
 */
 
 // Initialize Firebase
