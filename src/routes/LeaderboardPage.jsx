@@ -7,26 +7,27 @@ export default function LeaderboardPage(props) {
     const [usersData, setUsersData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const getTime = (userObj) => {
-
-    }
     useEffect(() => {
+        setUsersData([]);
         setLoading(true);
         async function getUsersData () {
             const docsSnap = await getDocs(collection(props.db ,'users'));
             docsSnap.forEach((doc) => {
+               
                 let data = doc.data();
-                setUsersData([...usersData,data]);
-            })
+                console.log(data);
+                let newUser = usersData;
+                newUser.push(data)
+                setUsersData(newUser);
+            });
+            setLoading(false);
         }
         getUsersData();
-        console.log(usersData);
-        setLoading(false);
     }, [])
-
+    console.log(usersData);
     return(
-        <div className="overlay">
-            <Box>
+        <div className="overlay scroll">
+            <Box sx={{overflow:'auto'}}>
                 <h3>Leaderboard</h3>
                 <Divider />
                 <TableContainer>
@@ -38,7 +39,19 @@ export default function LeaderboardPage(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {loading ? <div>...loading</div> : <></>
+                            {loading ? <div>...loading</div> : usersData.map((u,index) => {
+                                if(!u.time){
+                                    return;
+                                }
+                                else{
+                                    return(
+                                        <TableRow key={index} >
+                                        <TableCell>{u.name}</TableCell>
+                                        <TableCell>{u.time}</TableCell>
+                                        </TableRow>
+                                    )
+                                }
+                            })
                             }
                         </TableBody>
                     </Table>
