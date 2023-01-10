@@ -1,4 +1,5 @@
 import { Divider, Paper } from "@mui/material"
+import Timer from "./Timer"
 
 export default function Header(props){
     return(
@@ -11,7 +12,7 @@ export default function Header(props){
                 <b>Seek and Ye Shall Find</b>
             </div>
             <Divider orientation="vertical" variant='middle' flexItem />
-            <div>Score: {props.user.score}</div>
+            <Timer />
         </Paper>
     )
 }
