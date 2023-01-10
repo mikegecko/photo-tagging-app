@@ -18,7 +18,7 @@ export default function Start(props) {
                 <p>Seek and Ye Shall Find</p> 
                 <form onSubmit={handleSubmit}>
                 <Divider variant="middle"/>
-                <TextField required={true} value={name} type={'text'} id={'name'} onChange={e => setName(e.target.value)} variant="outlined" label="Name" sx={{margin:"1rem"}}/>
+                <TextField required={true} value={name} style={{backgroundColor: 'white'}} type={'text'} id={'name'} onChange={e => setName(e.target.value)} variant="outlined" label="Name" sx={{margin:"1rem"}}/>
                 <Divider variant="middle"/>
                 <Button type='submit' variant="contained" sx={{margin:"1rem"}}>Start Game</Button>
                 </form>
