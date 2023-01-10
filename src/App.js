@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Start from "./routes/Start";
 import PhotoPage from "./routes/PhotoPage";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -38,12 +38,12 @@ import LeaderboardPage from "./routes/LeaderboardPage";
     ✅ Pannable, zoomable image
     ✅ Image controls for resetting / centering image
     * Replace debug bounding box ?
-  - Leaderboard Page creation
-    - Score function calculates time from finish - start
-      * do this for every user and store it as a number
+  ✅ Leaderboard Page creation
+    ✅ Score function calculates time from finish - start
+      ✅ do this for every user and store it as a number
       * query the lowest 10 scores
       * place player at bottom if his score is lower than the lowest 10 - maybe include position
-  - Implement either score or timer
+  ✅ Implement either score or timer
   ✅ Add info modal or something
     ✅ Displays info about how to play the game
     ✅ 'Double click to tag item!'
@@ -207,9 +207,6 @@ function App() {
       }
     }
     updateItemsDB();
-
-    
-    console.log(items);
     setLoading(false)
   }, [items]);
   useEffect(() => {

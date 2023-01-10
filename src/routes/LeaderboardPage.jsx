@@ -1,7 +1,7 @@
 import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function LeaderboardPage(props) {
     const [usersData, setUsersData] = useState([]);
@@ -15,7 +15,6 @@ export default function LeaderboardPage(props) {
             docsSnap.forEach((doc) => {
                
                 let data = doc.data();
-                console.log(data);
                 let newUser = usersData;
                 newUser.push(data)
                 setUsersData(newUser);
@@ -23,8 +22,8 @@ export default function LeaderboardPage(props) {
             setLoading(false);
         }
         getUsersData();
+
     }, [])
-    console.log(usersData);
     return(
         <div className="overlay scroll">
             <Box sx={{overflow:'auto'}}>
